@@ -29,14 +29,14 @@ def get_orderbook(ticker):
 
 if __name__ == "__main__":
     import pprint 
-    tickers = get_tickers()
-    print(tickers)
+    #tickers = get_tickers()
+    #print(tickers)
 
     btc_price = get_current_price("xrp")
-    print(btc_price)
+    pprint.pprint(btc_price)
 
-    btc_price = get_current_price("all")
-    print(btc_price)
+    #btc_price = get_current_price("all")
+    #print(btc_price)
 
-    order = get_orderbook("btc")
-    pprint.pprint(order)
+    #order = get_orderbook("btc")
+    #pprint.pprint(order)
