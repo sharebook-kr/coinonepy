@@ -12,13 +12,8 @@ class CoinOne:
         self.access_token = access_token 
         self.secret_key = secret_key
 
-    def generate_payload(self, data=None):
-        if data is None:
-            param = {}
-        else:
-            param = data;
-
-        param['acess_token'] = self.access_token
+    def generate_payload(self, **param):
+        param['access_token'] = self.access_token
         param['nonce'] = int(time.time() * 1000) 
         json_param = json.dumps(param) 
         self.payload = base64.b64encode(json_param.encode('utf-8'))
@@ -29,15 +24,14 @@ class CoinOne:
             self.payload,
             hashlib.sha512).hexdigest()
 
-    def request_post(self, url, data=None):
-        self.generate_payload(data)
+    def request_post(self, url, **kwargs):
+        self.generate_payload(**kwargs)
         self.generate_signature()
         headers = {
             'Content-Type': 'application/json',
             'X-COINONE-PAYLOAD': self.payload,
             'X-COINONE-SIGNATURE': self.signature
         }
-
         resp = requests.post(url=url, headers=headers)
         return resp.json()
 
@@ -53,36 +47,36 @@ class CoinOne:
 
     def buy_limit_order(self, ticker, price, quantity, is_post_only=False):
         url = "https://api.coinone.co.kr/v2/order/limit_buy/"
-        data = {
+        param = {
             'price': price, 
             'qty': quantity, 
             'currency': ticker, 
             'is_post_only': is_post_only
         }
-        data = coinone.request_post(url=url, data=data)
+        data = coinone.request_post(url=url, **param)
         return data        
 
     def sell_limit_order(self, ticker, price, quantity, is_post_only=False):
         url = "https://api.coinone.co.kr/v2/order/limit_sell/"
-        data = {
+        param = {
             'price': price, 
             'qty': quantity, 
             'currency': ticker, 
             'is_post_only': is_post_only
         }
-        data = coinone.request_post(url=url, data=data)
+        data = coinone.request_post(url=url, **param)
         return data        
 
     def cancel_order(self, ticker, order_id, price, quantity, is_ask):
         url = "https://api.coinone.co.kr/v2/order/cancel/"
-        data = {
+        param = {
             'order_id': order_id,
             'price': price, 
             'qty': quantity, 
             'is_ask': is_ask,
             'currency': ticker 
         }
-        data = coinone.request_post(url=url, data=data)
+        data = coinone.request_post(url=url, **param) 
         return data        
 
 
