@@ -37,12 +37,12 @@ class CoinOne:
 
     def get_balance(self):
         url = "https://api.coinone.co.kr/v2/account/balance/"
-        data = coinone.request_post(url=url)
+        data = self.request_post(url=url)
         return data
 
     def get_user_info(self):
         url = "https://api.coinone.co.kr/v2/account/user_info/"
-        data = coinone.request_post(url=url)
+        data = self.request_post(url=url)
         return data
 
     def buy_limit_order(self, ticker, price, quantity, is_post_only=False):
@@ -53,7 +53,7 @@ class CoinOne:
             'currency': ticker, 
             'is_post_only': is_post_only
         }
-        data = coinone.request_post(url=url, **param)
+        data = self.request_post(url=url, **param)
         return data        
 
     def sell_limit_order(self, ticker, price, quantity, is_post_only=False):
@@ -64,7 +64,7 @@ class CoinOne:
             'currency': ticker, 
             'is_post_only': is_post_only
         }
-        data = coinone.request_post(url=url, **param)
+        data = self.request_post(url=url, **param)
         return data        
 
     def cancel_order(self, ticker, order_id, price, quantity, is_ask):
@@ -76,7 +76,7 @@ class CoinOne:
             'is_ask': is_ask,
             'currency': ticker 
         }
-        data = coinone.request_post(url=url, **param) 
+        data = self.request_post(url=url, **param) 
         return data        
 
 
